@@ -59,7 +59,7 @@ initialize.UDVZ = function(X){
 #' The continuum regression (CR) algorithm
 #'
 #' This function performs an iteration update of the JICO algorithm using the CR algorithm. 
-#' Details can be found in Appendix B in the JICO paper: Wang, P., Wang, H., Li, Q., Shen, D., & Liu, Y. (2022).
+#' Details can be found in Appendix B in the JICO paper: https://arxiv.org/pdf/2209.12388.pdf
 #'
 #' @param X The input feature matrix
 #' @param Y The input response vector
@@ -68,7 +68,7 @@ initialize.UDVZ = function(X){
 #' @param gam The gamma parameter in the CR algorithm. Set gam=0 for OLS model, gam=0.5 for PLS model, 
 #' gam >= 1e10 for PCR model
 #' @param om The desired number of weight vectors to obtain in the CR algorithm, i.e. the predefined rank of 
-#' joint or individual component.
+#' joint or individual componenet
 #' @param U_old The given inputs U from the previous JICO iteration step
 #' @param D_old The given inputs D from the previous JICO iteration step
 #' @param V_old The given inputs V from the previous JICO iteration step
@@ -157,7 +157,7 @@ continuum = function(X, Y, lambda, gam, om,
 #' The Joint and Individual Component Regression (JICO) algorithm
 #'
 #' This function iteratively solves the multi-group regression problem using the JICO algorithm. 
-#' JICO paper: Wang, P., Wang, H., Li, Q., Shen, D., & Liu, Y. (2022).
+#' JICO paper: https://arxiv.org/pdf/2209.12388.pdf
 #'
 #' @param X.list The list of feature matrices from multiple groups.
 #' @param Y.list The list of feature vectors from multiple groups.
@@ -168,11 +168,11 @@ continuum = function(X, Y, lambda, gam, om,
 #' @param rankJ The rank for the joint component.
 #' @param rankA The ranks for individual components.
 #' @param maxiter The maximum number of iterations to conduct before algorithm convergence.
-#' @param conv The tolerance level for convergence.
+#' @param conv The tolerance level for covergence.
 #' @param center.X Boolean. If X should be preprocessed with centralization.
 #' @param scale.X Boolean. If X should be preprocessed with scaling.
 #' @param center.Y Boolean. If Y should be preprocessed with centralization.
-#' @param scale.Y Boolean. If Y should be preprocessed with scaling.
+#' @param scale.Y Boolean. If Y should be preprocessed with scaline.
 #' @param orthIndiv Boolean. If we impose the orthogonality constraint on individual components.
 #' @param I.initial The initial values for individual components.
 #' @param sd The standard deviation used to generate random initial values for individual weight vectors.
@@ -395,14 +395,14 @@ continuum.multigroup.iter = function(X.list, Y.list, lambda = 0, gam, rankJ, ran
     
     if (gam > 1e5){
       if (norm(Rlast - R, type = "f") <= conv){
-        converged <- TRUE
+        converged <- T
       }
     }else{
       CT1 = (ct.homo - ct.homo.last)/ct.homo.last
       CT2 = lapply(1:G, function(g) as.vector((ct.heter[[g]]-ct.heter.last[[g]])/ct.heter.last[[g]]))
       CT = c(CT1, do.call(c, CT2))
-      if (max(abs(CT), na.rm = TRUE) <= conv){
-        converged <- TRUE
+      if (max(abs(CT), na.rm = T) <= conv){
+        converged <- T
       }
     }
     
@@ -452,7 +452,7 @@ continuum.multigroup.iter = function(X.list, Y.list, lambda = 0, gam, rankJ, ran
 #' @param center.X Boolean. If X should be preprocessed with centralization.
 #' @param scale.X Boolean. If X should be preprocessed with scaling.
 #' @param center.Y Boolean. If Y should be preprocessed with centralization.
-#' @param scale.Y Boolean. If Y should be preprocessed with scaling.
+#' @param scale.Y Boolean. If Y should be preprocessed with scaline.
 #' @param orthIndiv Boolean. If we impose the orthogonality constraint on individual components.
 #' @param plot Boolean. If we want to plot the rMSE vs different parameters
 #' @param criteria criteria for selecting the best parameter. 
@@ -481,7 +481,7 @@ continuum.multigroup.iter = function(X.list, Y.list, lambda = 0, gam, rankJ, ran
 #' @export
 cv.continnum.iter = function(X.list, Y.list, lambda = 0, parameter.set, nfolds = 10, maxiter = 100,
                              center.X = TRUE, scale.X = TRUE, center.Y = TRUE, scale.Y = TRUE, orthIndiv = FALSE, 
-                             plot = FALSE, criteria = c("min", "1se"), sd = 0){
+                             plot = F, criteria = c("min", "1se"), sd = 0){
   G = length(X.list)
   flds.list = lapply(1:G, function(g) createFolds(Y.list[[g]], k = nfolds))
   MSE.list = list()

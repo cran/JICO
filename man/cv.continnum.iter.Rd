@@ -16,7 +16,7 @@ cv.continnum.iter(
   center.Y = TRUE,
   scale.Y = TRUE,
   orthIndiv = FALSE,
-  plot = FALSE,
+  plot = F,
   criteria = c("min", "1se"),
   sd = 0
 )
@@ -41,7 +41,7 @@ JICO uses zero as default.}
 
 \item{center.Y}{Boolean. If Y should be preprocessed with centralization.}
 
-\item{scale.Y}{Boolean. If Y should be preprocessed with scaling.}
+\item{scale.Y}{Boolean. If Y should be preprocessed with scaline.}
 
 \item{orthIndiv}{Boolean. If we impose the orthogonality constraint on individual components.}
 

@@ -83,7 +83,7 @@ parameter.set.rankA_eq = function(G, maxrankA, maxrankJ, gamma.list){
 
 #' Generate diagonal matrix
 #'
-#' This function returns a diagonal matrix using the input vector or number as diagonal.
+#' This function returns a diagnoal matrix using the input vector or number as diagonal.
 #'
 #' @param e Diagonal element. Can be a vector or a number
 #' @return A square diagonal matrix using the input as diagonal elements
